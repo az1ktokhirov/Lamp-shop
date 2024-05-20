@@ -1,152 +1,398 @@
 /*=============== SHOW MENU ===============*/
-const navMenu = document.getElementById('nav-menu'),
-    navToggle = document.getElementById('nav-toggle'),
-    navClose = document.getElementById('nav-close')
+const navMenu = document.getElementById("nav-menu"),
+  navToggle = document.getElementById("nav-toggle"),
+  navClose = document.getElementById("nav-close");
 if (navToggle) {
-    navToggle.addEventListener('click', () => {
-        navMenu.classList.add('show-menu')
-    })
-};
+  navToggle.addEventListener("click", () => {
+    navMenu.classList.add("show-menu");
+  });
+}
 
 if (navClose) {
-    navClose.addEventListener('click', () => {
-        navMenu.classList.remove('show-menu')
-    })
+  navClose.addEventListener("click", () => {
+    navMenu.classList.remove("show-menu");
+  });
 }
 
+/*=============== SHOW SHOP ===============*/
+const shopCart = document.getElementById("shop-cart"),
+  shopBag = document.getElementById("shop-bag"),
+  shopClose = document.getElementById("shop-close");
+if (shopBag) {
+  shopBag.addEventListener("click", () => {
+    shopCart.classList.add("show-shop");
+  });
+}
+
+if (shopClose) {
+  shopClose.addEventListener("click", () => {
+    shopCart.classList.remove("show-shop");
+  });
+}
 
 /*=============== REMOVE MENU MOBILE ===============*/
-const navLink = document.querySelectorAll('.nav__link')
+const navLink = document.querySelectorAll(".nav__link");
 
 const linkAction = () => {
-    const navMenu = document.getElementById('nav-menu')
-    navMenu.classList.remove('show-menu')
-}
-navLink.forEach(n => n.addEventListener('click', linkAction))
+  const navMenu = document.getElementById("nav-menu");
+  navMenu.classList.remove("show-menu");
+};
+navLink.forEach((n) => n.addEventListener("click", linkAction));
 
 /*=============== CHANGE BACKGROUND HEADER ===============*/
 const scrollHeader = () => {
-    const header = document.getElementById('header')
-    this.scrollY >= 50 ? header.classList.add('bg-header')
-        : header.classList.remove('bg-header')
-}
-window.addEventListener('scroll', scrollHeader)
-
+  const header = document.getElementById("header");
+  this.scrollY >= 50
+    ? header.classList.add("bg-header")
+    : header.classList.remove("bg-header");
+};
+window.addEventListener("scroll", scrollHeader);
 
 /*=============== SWIPER POPULAR ===============*/
-const popularSwiper = new Swiper('.popular__content', {
-    slidesPerView: 'auto',
-    centeredSlides: true,
-    loop: true,
+const popularSwiper = new Swiper(".popular__content", {
+  slidesPerView: "auto",
+  centeredSlides: true,
+  loop: true,
 
-    navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-    },
+  navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev",
+  },
+
+  autoplay: {
+    delay: 2500,
+    disableOnInteraction: false,
+  },
 });
 
 /*=============== CHOOSE FAQ ===============*/
-const faqItems = document.querySelectorAll('.choose__faq-item')
+const faqItems = document.querySelectorAll(".choose__faq-item");
 
 faqItems.forEach((item) => {
-    const faqHeader = item.querySelector('.choose__faq-header')
+  const faqHeader = item.querySelector(".choose__faq-header");
 
-    faqHeader.addEventListener('click', () => {
-        const openItem = document.querySelector('.faq-open')
-        toggleItem(item)
+  faqHeader.addEventListener("click", () => {
+    const openItem = document.querySelector(".faq-open");
+    toggleItem(item);
 
-        if (openItem && openItem != item) {
-            toggleItem(openItem)
-        }
-    })
-})
+    if (openItem && openItem != item) {
+      toggleItem(openItem);
+    }
+  });
+});
 
 const toggleItem = (item) => {
-    const faqContent = item.querySelector('.choose__faq-content')
+  const faqContent = item.querySelector(".choose__faq-content");
 
-    if (item.classList.contains('faq-open')) {
-        faqContent.removeAttribute('style')
-        item.classList.remove('faq-open')
-    } else {
-        faqContent.style.height = faqContent.scrollHeight + 'px'
-        item.classList.add('faq-open')
-    }
-
-
-}
+  if (item.classList.contains("faq-open")) {
+    faqContent.removeAttribute("style");
+    item.classList.remove("faq-open");
+  } else {
+    faqContent.style.height = faqContent.scrollHeight + "px";
+    item.classList.add("faq-open");
+  }
+};
 /*=============== SHOW SCROLL UP ===============*/
 function scrollUp() {
-    var scrollUp = document.getElementById('scroll-up');
-    if (window.scrollY >= 350) {
-        scrollUp.classList.add('show-scroll');
-    } else {
-        scrollUp.classList.remove('show-scroll');
-    }
+  var scrollUp = document.getElementById("scroll-up");
+  if (window.scrollY >= 350) {
+    scrollUp.classList.add("show-scroll");
+  } else {
+    scrollUp.classList.remove("show-scroll");
+  }
 
-    scrollUp.addEventListener('click', function (e) {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+  scrollUp.addEventListener("click", function (e) {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
 
 }
-window.addEventListener('scroll', scrollUp);
-
+window.addEventListener("scroll", scrollUp);
 
 /*=============== SCROLL SECTIONS ACTIVE LINK ===============*/
-const sections = document.querySelectorAll('section[id]')
+const sections = document.querySelectorAll("section[id]");
 
 const scrollActive = () => {
-    const scrollDown = window.scrollY
+  const scrollDown = window.scrollY;
 
-    sections.forEach(current => {
-        const sectionHeight = current.offsetHeight,
-            sectionTop = current.offsetTop - 58,
-            sectionId = current.getAttribute('id'),
-            sectionsClass = document.querySelector('.nav__menu a[href*=' + sectionId + ']')
+  sections.forEach((current) => {
+    const sectionHeight = current.offsetHeight,
+      sectionTop = current.offsetTop - 58,
+      sectionId = current.getAttribute("id"),
+      sectionsClass = document.querySelector(
+        ".nav__menu a[href*=" + sectionId + "]"
+      );
 
-        if (scrollDown > sectionTop && scrollDown <= sectionTop + sectionHeight) {
-            sectionsClass.classList.add('active-link')
-        } else {
-            sectionsClass.classList.remove('active-link')
-        }
-    })
-}
-window.addEventListener('scroll', scrollActive)
+    if (scrollDown > sectionTop && scrollDown <= sectionTop + sectionHeight) {
+      sectionsClass.classList.add("active-link");
+    } else {
+      sectionsClass.classList.remove("active-link");
+    }
+  });
+};
+window.addEventListener("scroll", scrollActive);
 
 /*=============== DARK LIGHT THEME ===============*/
-const themeButton = document.getElementById('theme-button')
-const darkTheme = 'dark-theme'
-const iconTheme = 'ri-sun-line'
+const themeButton = document.getElementById("theme-button");
+const darkTheme = "dark-theme";
+const iconTheme = "ri-sun-line";
 
+const selectedTheme = localStorage.getItem("selected-theme");
+const selectedIcon = localStorage.getItem("selected-icon");
 
-const selectedTheme = localStorage.getItem('selected-theme')
-const selectedIcon = localStorage.getItem('selected-icon')
-
-const getCurrentTheme = () => document.body.classList.contains(darkTheme) ? 'dark' : 'light'
-const getCurrentIcon = () => themeButton.classList.contains(iconTheme) ? 'ri-moon-line' : 'ri-sun-line'
-
+const getCurrentTheme = () =>
+  document.body.classList.contains(darkTheme) ? "dark" : "light";
+const getCurrentIcon = () =>
+  themeButton.classList.contains(iconTheme) ? "ri-moon-line" : "ri-sun-line";
 
 if (selectedTheme) {
-    document.body.classList[selectedTheme === 'dark' ? 'add' : 'remove'](darkTheme)
-    themeButton.classList[selectedIcon === 'ri-moon-line' ? 'add' : 'remove'](iconTheme)
+  document.body.classList[selectedTheme === "dark" ? "add" : "remove"](
+    darkTheme
+  );
+  themeButton.classList[selectedIcon === "ri-moon-line" ? "add" : "remove"](
+    iconTheme
+  );
 }
-themeButton.addEventListener('click', () => {
-    document.body.classList.toggle(darkTheme)
-    themeButton.classList.toggle(iconTheme)
-    localStorage.setItem('selected-theme', getCurrentTheme())
-    localStorage.setItem('selected-icon', getCurrentIcon())
-})
+themeButton.addEventListener("click", () => {
+  document.body.classList.toggle(darkTheme);
+  themeButton.classList.toggle(iconTheme);
+  localStorage.setItem("selected-theme", getCurrentTheme());
+  localStorage.setItem("selected-icon", getCurrentIcon());
+});
 
 /*=============== SCROLL REVEAL ANIMATION ===============*/
 const rev = ScrollReveal({
-    origin: 'top',
-    distance: '60px',
-    duration: 2500,
-    delay: 400,
-    reset: 400
+  origin: "top",
+  distance: "60px",
+  duration: 2500,
+  delay: 400,
+  reset: 400,
+});
+
+rev.reveal(
+  ".home__content, .popular__container, .products__container, .join__bg, .footer__container"
+);
+rev.reveal(".home__image", { origin: "bottom" });
+rev.reveal(".choose__image, .features__image", { origin: "left" });
+rev.reveal(".choose__content, features__content", { origin: "right" });
+
+/*=============== ADD TO CART ===============*/
+const
+    productBtns = document.querySelectorAll('.add-btn'), /* pasdegi korzina */
+    basketBtn = document.querySelector('#shop-bag'),  /* tepadagi korzina */
+    basketModal = document.querySelector('#shop-cart'), /* korzina bosilganda chiqadigon modal oyna */
+    closeBtnModal = document.querySelector('#shop-close'), /* korzinani berkitish uchun knopka */
+    basketChecklist = document.querySelector('.nav__shop-list'), /* mahsulot qo'shiladigon qismi */
+    basketIndicator = document.querySelector('.shop-indicator'),
+    basketTotalPrice = document.querySelector('.shop-totalPrice'), /* umumiy narx chiqadigon qismi */
+    basketPrint = document.querySelector('.nav__checkout'); /* chek chiqarish uchun */
+    printChecklist = document.querySelector('.print__body'),
+    printTotalSum = document.querySelector('.print__footer')
+
+    const product = {
+      modern: {
+        name: "Modern",
+        price: 14,
+        amount: 0,
+        img: "./assets/img/modern-lamp.png",
+        get totalSum() {
+          return this.price * this.amount;
+        },
+      },
+    
+      industrial: {
+        name: "Industrial",
+        price: 20,
+        amount: 0,
+        img: "./assets/img/industrial-lamp.png",
+        get totalSum() {
+          return this.price * this.amount;
+        },
+      },
+    
+      superbolw: {
+        name: "Superbolw",
+        price: 18,
+        amount: 0,
+        img: "./assets/img/superbolw-lamp.png",
+        get totalSum() {
+          return this.price * this.amount;
+        },
+      },
+    
+      ultrawide: {
+        name: "Ultrawide",
+        price: 16,
+        amount: 0,
+        img: "./assets/img/ultrawide-lamp.png",
+        get totalSum() {
+          return this.price * this.amount;
+        },
+      },
+    
+      roundness: {
+        name: "Roundness",
+        price: 17,
+        amount: 0,
+        img: "./assets/img/roundness-light.png",
+        get totalSum() {
+          return this.price * this.amount;
+        },
+      },
+    
+      stickness: {
+        name: "Stickness",
+        price: 28,
+        amount: 0,
+        img: "./assets/img/stickness-light.png",
+        get totalSum() {
+          return this.price * this.amount;
+        },
+      },
+    
+      superjet: {
+        name: "Superjet",
+        price: 15,
+        amount: 0,
+        img: "./assets/img/superjet-light.png",
+        get totalSum() {
+          return this.price * this.amount;
+        },
+      },
+    
+      nakedness: {
+        name: "Nakedness",
+        price: 13.99,
+        amount: 0,
+        img: "./assets/img/nakedness-lamp.png",
+        get totalSum() {
+          return this.price * this.amount;
+        },
+      },
+    };
+
+basketBtn.addEventListener('click', () => basketModal.classList.add('show-shop'));
+closeBtnModal.addEventListener('click', () => basketModal.classList.remove('show-shop'));
+
+productBtns.forEach((btn) => {
+    btn.addEventListener('click', function () {
+        plusOrMinus(this)
+    })
+});
+
+function plusOrMinus(button) {
+    var parent = button.closest('.products__card');
+    var parentId = parent.getAttribute('id')
+    product[parentId].amount++;
+    console.log(parentId);
+    basket();
+}
+
+function basket() {
+
+    const productArray = [];
+    var totalCount = 0;
+    basketIndicator.classList.remove('active');
+
+    for (const key in product) {
+        const po = product[key];
+        const productCard = document.querySelector(`#${po.name.toLowerCase()}`);
+        const productCardInd = productCard.querySelector('.card-count');  
+        
+        if (po.amount) {
+            productArray.push(po);
+            basketIndicator.classList.add('active');
+            totalCount += po.amount
+            productCardInd.classList.add('active');
+            productCardInd.innerHTML = po.amount;
+        } else {
+            productCardInd.classList.remove('active');
+            productCardInd.innerHTML = 0;
+        }
+        basketIndicator.innerHTML = totalCount;
+    }
+    basketChecklist.innerHTML = '';
+
+    for (let i = 0; i < productArray.length; i++) {
+        basketChecklist.innerHTML += cardItemBook(productArray[i]);
+    }
+    basketTotalPrice.innerHTML = totalSumProducts();
+}
+
+function cardItemBook(dataBook) {
+    
+    const { name, totalSum: price, amount, img } = dataBook;
+    return `
+    <div class="nav__shop-item">
+    <div class="nav__item-img">
+       <img src="${img}" alt="">
+    </div>
+    <div>
+       <p class="nav__item-name">${name}</p>
+       <div class="nav__item-price">
+          <span>$</span>${price.toLocaleString()}
+       </div>
+    </div>
+    <div class="quantity" id="${name.toLowerCase()}__card>
+       <button class="shop__product-symbol" data-symbol="-"><i class="ri-indeterminate-circle-line"></i></button>
+       <output class="shop__product-output">${amount}</output>
+       <button class="shop__product-symbol" data-symbol="+"><i class="ri-add-circle-line"></i></button>
+    </div>
+ </div>
+            `
+}
+
+window.addEventListener('click', function (event) {
+    const btn = event.target;
+    
+    if (btn.classList.contains('shop__product-symbol')) {
+        const attr = btn.getAttribute('data-symbol')
+        
+        const parent = btn.closest('.quantity')
+        console.log(attr);
+        
+        if (parent) {
+            const idProduct = parent.getAttribute('id').split('__')[0];
+            
+            if (attr == '+') {
+                product[idProduct].amount++
+            } else if (attr == '-') {
+                product[idProduct].amount--
+            }
+            
+            basket()
+        }
+    }
 })
 
-rev.reveal('.home__content, .popular__container, .products__container, .join__bg, .footer__container')
-rev.reveal('.home__image', { origin: 'bottom' })
-rev.reveal('.choose__image, .features__image', { origin: 'left' })
-rev.reveal('.choose__content, features__content', { origin: 'right' })
+function totalSumProducts() {
+    let total = 0;
+    
+    for(const key in product) {
+        total += product[key].totalSum
+    }
+    
+    return "$ " + total.toLocaleString()
+}
+
+basketPrint.addEventListener('click', function () {
+  printChecklist.innerHTML = '';
+  
+  for (const key in product) {
+    const { name, totalSum, amount } = product[key];
+
+    if (amount) {
+      printChecklist.innerHTML += `
+        <div class="print__item">
+          <div class="print__body-item_name">
+            <span class="name">${name} Book</span>
+            <span class="count">${amount}</span>
+          </div>
+          <div class="print__body-item_sum">$ ${totalSum.toLocaleString()}</div>
+        </div>
+      `;
+    }
+  }
+  printTotalSum.innerHTML = totalSumProducts();
+  window.print();
+});
