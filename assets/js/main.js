@@ -35,16 +35,20 @@ const navLink = document.querySelectorAll(".nav__link");
 
 const linkAction = () => {
   const navMenu = document.getElementById("nav-menu");
-  navMenu.classList.remove("show-menu");
+  if (navMenu) {
+    navMenu.classList.remove("show-menu");
+  }
 };
 navLink.forEach((n) => n.addEventListener("click", linkAction));
 
 /*=============== CHANGE BACKGROUND HEADER ===============*/
 const scrollHeader = () => {
   const header = document.getElementById("header");
-  this.scrollY >= 50
-    ? header.classList.add("bg-header")
-    : header.classList.remove("bg-header");
+  if (header) {
+    this.scrollY >= 50
+      ? header.classList.add("bg-header")
+      : header.classList.remove("bg-header");
+  }
 };
 window.addEventListener("scroll", scrollHeader);
 
@@ -71,41 +75,46 @@ const faqItems = document.querySelectorAll(".choose__faq-item");
 faqItems.forEach((item) => {
   const faqHeader = item.querySelector(".choose__faq-header");
 
-  faqHeader.addEventListener("click", () => {
-    const openItem = document.querySelector(".faq-open");
-    toggleItem(item);
+  if (faqHeader) {
+    faqHeader.addEventListener("click", () => {
+      const openItem = document.querySelector(".faq-open");
+      toggleItem(item);
 
-    if (openItem && openItem != item) {
-      toggleItem(openItem);
-    }
-  });
+      if (openItem && openItem !== item) {
+        toggleItem(openItem);
+      }
+    });
+  }
 });
 
 const toggleItem = (item) => {
   const faqContent = item.querySelector(".choose__faq-content");
 
-  if (item.classList.contains("faq-open")) {
-    faqContent.removeAttribute("style");
-    item.classList.remove("faq-open");
-  } else {
-    faqContent.style.height = faqContent.scrollHeight + "px";
-    item.classList.add("faq-open");
+  if (faqContent) {
+    if (item.classList.contains("faq-open")) {
+      faqContent.removeAttribute("style");
+      item.classList.remove("faq-open");
+    } else {
+      faqContent.style.height = faqContent.scrollHeight + "px";
+      item.classList.add("faq-open");
+    }
   }
 };
 /*=============== SHOW SCROLL UP ===============*/
 function scrollUp() {
   var scrollUp = document.getElementById("scroll-up");
-  if (window.scrollY >= 350) {
-    scrollUp.classList.add("show-scroll");
-  } else {
-    scrollUp.classList.remove("show-scroll");
+  if (scrollUp) {
+    if (window.scrollY >= 350) {
+      scrollUp.classList.add("show-scroll");
+    } else {
+      scrollUp.classList.remove("show-scroll");
+    }
+
+    scrollUp.addEventListener("click", function (e) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
   }
-
-  scrollUp.addEventListener("click", function (e) {
-    e.preventDefault();
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-
 }
 window.addEventListener("scroll", scrollUp);
 
@@ -123,10 +132,12 @@ const scrollActive = () => {
         ".nav__menu a[href*=" + sectionId + "]"
       );
 
-    if (scrollDown > sectionTop && scrollDown <= sectionTop + sectionHeight) {
-      sectionsClass.classList.add("active-link");
-    } else {
-      sectionsClass.classList.remove("active-link");
+    if (sectionsClass) {
+      if (scrollDown > sectionTop && scrollDown <= sectionTop + sectionHeight) {
+        sectionsClass.classList.add("active-link");
+      } else {
+        sectionsClass.classList.remove("active-link");
+      }
     }
   });
 };
@@ -153,12 +164,14 @@ if (selectedTheme) {
     iconTheme
   );
 }
-themeButton.addEventListener("click", () => {
-  document.body.classList.toggle(darkTheme);
-  themeButton.classList.toggle(iconTheme);
-  localStorage.setItem("selected-theme", getCurrentTheme());
-  localStorage.setItem("selected-icon", getCurrentIcon());
-});
+if (themeButton) {
+  themeButton.addEventListener("click", () => {
+    document.body.classList.toggle(darkTheme);
+    themeButton.classList.toggle(iconTheme);
+    localStorage.setItem("selected-theme", getCurrentTheme());
+    localStorage.setItem("selected-icon", getCurrentIcon());
+  });
+}
 
 /*=============== SCROLL REVEAL ANIMATION ===============*/
 const rev = ScrollReveal({
@@ -174,225 +187,228 @@ rev.reveal(
 );
 rev.reveal(".home__image", { origin: "bottom" });
 rev.reveal(".choose__image, .features__image", { origin: "left" });
-rev.reveal(".choose__content, features__content", { origin: "right" });
+rev.reveal(".choose__content, .features__content", { origin: "right" });
 
 /*=============== ADD TO CART ===============*/
-const
-    productBtns = document.querySelectorAll('.add-btn'), /* pasdegi korzina */
-    basketBtn = document.querySelector('#shop-bag'),  /* tepadagi korzina */
-    basketModal = document.querySelector('#shop-cart'), /* korzina bosilganda chiqadigon modal oyna */
-    closeBtnModal = document.querySelector('#shop-close'), /* korzinani berkitish uchun knopka */
-    basketChecklist = document.querySelector('.nav__shop-list'), /* mahsulot qo'shiladigon qismi */
-    basketIndicator = document.querySelector('.shop-indicator'),
-    basketTotalPrice = document.querySelector('.shop-totalPrice'), /* umumiy narx chiqadigon qismi */
-    basketPrint = document.querySelector('.nav__checkout'); /* chek chiqarish uchun */
-    printChecklist = document.querySelector('.print__body'),
-    printTotalSum = document.querySelector('.print__footer')
+const productBtns = document.querySelectorAll(".add-btn"),
+  basketBtn = document.querySelector("#shop-bag"),
+  basketModal = document.querySelector("#shop-cart"),
+  closeBtnModal = document.querySelector("#shop-close"),
+  basketChecklist = document.querySelector(".nav__shop-list"),
+  basketIndicator = document.querySelector(".shop-indicator"),
+  basketTotalPrice = document.querySelector(".shop-totalPrice"),
+  basketPrint = document.querySelector(".nav__checkout"),
+  printChecklist = document.querySelector(".print__body"),
+  printTotalSum = document.querySelector(".print__footer");
 
-    const product = {
-      modern: {
-        name: "Modern",
-        price: 14,
-        amount: 0,
-        img: "./assets/img/modern-lamp.png",
-        get totalSum() {
-          return this.price * this.amount;
-        },
-      },
-    
-      industrial: {
-        name: "Industrial",
-        price: 20,
-        amount: 0,
-        img: "./assets/img/industrial-lamp.png",
-        get totalSum() {
-          return this.price * this.amount;
-        },
-      },
-    
-      superbolw: {
-        name: "Superbolw",
-        price: 18,
-        amount: 0,
-        img: "./assets/img/superbolw-lamp.png",
-        get totalSum() {
-          return this.price * this.amount;
-        },
-      },
-    
-      ultrawide: {
-        name: "Ultrawide",
-        price: 16,
-        amount: 0,
-        img: "./assets/img/ultrawide-lamp.png",
-        get totalSum() {
-          return this.price * this.amount;
-        },
-      },
-    
-      roundness: {
-        name: "Roundness",
-        price: 17,
-        amount: 0,
-        img: "./assets/img/roundness-light.png",
-        get totalSum() {
-          return this.price * this.amount;
-        },
-      },
-    
-      stickness: {
-        name: "Stickness",
-        price: 28,
-        amount: 0,
-        img: "./assets/img/stickness-light.png",
-        get totalSum() {
-          return this.price * this.amount;
-        },
-      },
-    
-      superjet: {
-        name: "Superjet",
-        price: 15,
-        amount: 0,
-        img: "./assets/img/superjet-light.png",
-        get totalSum() {
-          return this.price * this.amount;
-        },
-      },
-    
-      nakedness: {
-        name: "Nakedness",
-        price: 13.99,
-        amount: 0,
-        img: "./assets/img/nakedness-lamp.png",
-        get totalSum() {
-          return this.price * this.amount;
-        },
-      },
-    };
+const product = {
+  modern: {
+    name: "Modern",
+    price: 14,
+    amount: 0,
+    img: "./assets/img/modern-lamp.png",
+    get totalSum() {
+      return this.price * this.amount;
+    },
+  },
+  industrial: {
+    name: "Industrial",
+    price: 20,
+    amount: 0,
+    img: "./assets/img/industrial-lamp.png",
+    get totalSum() {
+      return this.price * this.amount;
+    },
+  },
+  superbolw: {
+    name: "Superbolw",
+    price: 18,
+    amount: 0,
+    img: "./assets/img/superbolw-lamp.png",
+    get totalSum() {
+      return this.price * this.amount;
+    },
+  },
+  ultrawide: {
+    name: "Ultrawide",
+    price: 16,
+    amount: 0,
+    img: "./assets/img/ultrawide-lamp.png",
+    get totalSum() {
+      return this.price * this.amount;
+    },
+  },
+  roundness: {
+    name: "Roundness",
+    price: 17,
+    amount: 0,
+    img: "./assets/img/roundness-light.png",
+    get totalSum() {
+      return this.price * this.amount;
+    },
+  },
+  stickness: {
+    name: "Stickness",
+    price: 28,
+    amount: 0,
+    img: "./assets/img/stickness-light.png",
+    get totalSum() {
+      return this.price * this.amount;
+    },
+  },
+  superjet: {
+    name: "Superjet",
+    price: 15,
+    amount: 0,
+    img: "./assets/img/superjet-light.png",
+    get totalSum() {
+      return this.price * this.amount;
+    },
+  },
+  nakedness: {
+    name: "Nakedness",
+    price: 13.99,
+    amount: 0,
+    img: "./assets/img/nakedness-lamp.png",
+    get totalSum() {
+      return this.price * this.amount;
+    },
+  },
+};
 
-basketBtn.addEventListener('click', () => basketModal.classList.add('show-shop'));
-closeBtnModal.addEventListener('click', () => basketModal.classList.remove('show-shop'));
+basketBtn?.addEventListener("click", () =>
+  basketModal?.classList.add("show-shop")
+);
+closeBtnModal?.addEventListener("click", () =>
+  basketModal?.classList.remove("show-shop")
+);
 
 productBtns.forEach((btn) => {
-    btn.addEventListener('click', function () {
-        plusOrMinus(this)
-    })
+  btn.addEventListener("click", function () {
+    plusOrMinus(this);
+  });
 });
 
 function plusOrMinus(button) {
-    var parent = button.closest('.products__card');
-    var parentId = parent.getAttribute('id')
+  const parent = button.closest(".products__card");
+  const parentId = parent?.getAttribute("id");
+  if (parentId && product[parentId]) {
     product[parentId].amount++;
-    console.log(parentId);
     basket();
+  }
 }
 
 function basket() {
+  const productArray = [];
+  let totalCount = 0;
+  basketIndicator?.classList.remove("active");
 
-    const productArray = [];
-    var totalCount = 0;
-    basketIndicator.classList.remove('active');
+  for (const key in product) {
+    const po = product[key];
+    const productCard = document.querySelector(`#${po.name.toLowerCase()}`);
+    const productCardInd = productCard?.querySelector(".card-count");
 
-    for (const key in product) {
-        const po = product[key];
-        const productCard = document.querySelector(`#${po.name.toLowerCase()}`);
-        const productCardInd = productCard.querySelector('.card-count');  
-        
-        if (po.amount) {
-            productArray.push(po);
-            basketIndicator.classList.add('active');
-            totalCount += po.amount
-            productCardInd.classList.add('active');
-            productCardInd.innerHTML = po.amount;
-        } else {
-            productCardInd.classList.remove('active');
-            productCardInd.innerHTML = 0;
-        }
-        basketIndicator.innerHTML = totalCount;
+    if (po.amount) {
+      productArray.push(po);
+      basketIndicator?.classList.add("active");
+      totalCount += po.amount;
+      productCardInd?.classList.add("active");
+      productCardInd && (productCardInd.innerHTML = po.amount);
+    } else {
+      productCardInd?.classList.remove("active");
+      productCardInd && (productCardInd.innerHTML = 0);
     }
-    basketChecklist.innerHTML = '';
+    basketIndicator && (basketIndicator.innerHTML = totalCount);
+  }
+  basketChecklist && (basketChecklist.innerHTML = "");
 
-    for (let i = 0; i < productArray.length; i++) {
-        basketChecklist.innerHTML += cardItemBook(productArray[i]);
-    }
-    basketTotalPrice.innerHTML = totalSumProducts();
+  for (let i = 0; i < productArray.length; i++) {
+    basketChecklist &&
+      (basketChecklist.innerHTML += cardItemBook(productArray[i]));
+  }
+  basketTotalPrice && (basketTotalPrice.innerHTML = totalSumProducts());
 }
 
 function cardItemBook(dataBook) {
-    
-    const { name, totalSum: price, amount, img } = dataBook;
-    return `
+  const { name, totalSum: price, amount, img } = dataBook;
+  return `
     <div class="nav__shop-item">
-    <div class="nav__item-img">
-       <img src="${img}" alt="">
+      <div class="nav__item-img">
+         <img src="${img}" alt="">
+      </div>
+      <div>
+         <p class="nav__item-name">${name}</p>
+         <div class="nav__item-price">
+            <span>$</span>${price.toLocaleString()}
+         </div>
+      </div>
+      <div class="quantity" id="${name.toLowerCase()}__card">
+         <button class="shop__product-symbol" data-symbol="-">
+           <i class="ri-indeterminate-circle-line"></i>
+         </button>
+         <output class="shop__product-output">${amount}</output>
+         <button class="shop__product-symbol" data-symbol="+">
+           <i class="ri-add-circle-line"></i>
+         </button>
+      </div>
     </div>
-    <div>
-       <p class="nav__item-name">${name}</p>
-       <div class="nav__item-price">
-          <span>$</span>${price.toLocaleString()}
-       </div>
-    </div>
-    <div class="quantity" id="${name.toLowerCase()}__card>
-       <button class="shop__product-symbol" data-symbol="-"><i class="ri-indeterminate-circle-line"></i></button>
-       <output class="shop__product-output">${amount}</output>
-       <button class="shop__product-symbol" data-symbol="+"><i class="ri-add-circle-line"></i></button>
-    </div>
- </div>
-            `
+  `;
 }
 
-window.addEventListener('click', function (event) {
-    const btn = event.target;
-    
-    if (btn.classList.contains('shop__product-symbol')) {
-        const attr = btn.getAttribute('data-symbol')
-        
-        const parent = btn.closest('.quantity')
-        console.log(attr);
-        
-        if (parent) {
-            const idProduct = parent.getAttribute('id').split('__')[0];
-            
-            if (attr == '+') {
-                product[idProduct].amount++
-            } else if (attr == '-') {
-                product[idProduct].amount--
-            }
-            
-            basket()
+window.addEventListener("click", function (event) {
+  const btn = event.target;
+
+  if (btn.classList.contains("shop__product-symbol")) {
+    const attr = btn.getAttribute("data-symbol");
+
+    const parent = btn.closest(".quantity");
+    if (parent) {
+      const idProduct = parent.getAttribute("id")?.split("__")[0];
+      if (idProduct && product[idProduct]) {
+        if (attr === "+") {
+          product[idProduct].amount++;
+        } else if (attr === "-") {
+          product[idProduct].amount--;
         }
+        if (product[idProduct].amount < 0) product[idProduct].amount = 0;
+
+        basket();
+      }
     }
-})
+  }
+});
 
 function totalSumProducts() {
-    let total = 0;
-    
-    for(const key in product) {
-        total += product[key].totalSum
-    }
-    
-    return "$ " + total.toLocaleString()
+  let total = 0;
+
+  for (const key in product) {
+    total += product[key].totalSum;
+  }
+
+  return "$ " + total.toLocaleString();
 }
 
-basketPrint.addEventListener('click', function () {
-  printChecklist.innerHTML = '';
-  
+basketPrint?.addEventListener("click", function () {
+  if (printChecklist) printChecklist.innerHTML = "";
+
   for (const key in product) {
     const { name, totalSum, amount } = product[key];
 
     if (amount) {
-      printChecklist.innerHTML += `
+      printChecklist?.insertAdjacentHTML(
+        "beforeend",
+        `
         <div class="print__item">
           <div class="print__body-item_name">
-            <span class="name">${name} Book</span>
+            <span class="name">${name}</span>
             <span class="count">${amount}</span>
           </div>
           <div class="print__body-item_sum">$ ${totalSum.toLocaleString()}</div>
         </div>
-      `;
+      `
+      );
     }
   }
-  printTotalSum.innerHTML = totalSumProducts();
+  printTotalSum && (printTotalSum.innerHTML = totalSumProducts());
   window.print();
 });
